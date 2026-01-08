@@ -104,18 +104,27 @@ def show_error(title="錯誤", message="發生錯誤"):
 # 1.20.5~ -> 21
 # 1.17~1.20.4-> 17
 # 1.0~1.16.5 -> 8
-def get_required_java_version(mc_version):
+def get_required_java_version(mc_version: str) -> int:
     try:
         parts = mc_version.split(".")
-        if mc_version.startswith("1.") and len(parts) > 1 and parts[1].isdigit():
-            major = int(parts[1])
-            minor = int(parts[2]) if len(parts) > 2 and parts[2].isdigit() else 0
-        elif parts[0].isdigit():
-            major = int(parts[0])
-            minor = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else 0
-        else:
+        if len(parts) < 2:
             return 8
-        return 21 if major >= 21 or (major == 20 and minor >= 5) else 17 if major >= 17 else 8
+
+        # Minecraft 一定是 1.x.y 結構
+        minor = int(parts[1])
+        patch = int(parts[2]) if len(parts) > 2 and parts[2].isdigit() else 0
+
+        # 1.20.5+
+        if minor > 20 or (minor == 20 and patch >= 5):
+            return 21
+
+        # 1.17 ~ 1.20.4
+        if minor >= 17:
+            return 17
+
+        # <= 1.16.5
+        return 8
+
     except Exception as e:
         print(f"[Java版本判斷錯誤]: {e}")
         return 8
@@ -600,3 +609,4 @@ def on_create_server():
 win, CreateServerButton, status_var = CreateGUI()
 CreateServerButton.configure(command=on_create_server)
 win.mainloop()
+
