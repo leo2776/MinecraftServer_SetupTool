@@ -1,15 +1,4 @@
-from tkinter import messagebox
-import customtkinter as ctk
-import tkinter as tk
-import os
-import sys
-import requests
-import webbrowser
-import zipfile
-import shutil
-import tempfile
-import threading
-import time
+from tkintfrom tkinter import messagebox; import customtkinter as ctk; import tkinter as tk; import os, sys, requests, webbrowser, zipfile, shutil, tempfile, threading, time
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
@@ -600,3 +589,4 @@ def on_create_server():
 win, CreateServerButton, status_var = CreateGUI()
 CreateServerButton.configure(command=on_create_server)
 win.mainloop()
+
